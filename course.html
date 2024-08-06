@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Course Videos</title>
+  <style>
+    #video-list { list-style-type: none; padding: 0; }
+    #video-list li { cursor: pointer; margin: 5px 0; }
+    #controls { margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2 id="course-title"></h2>
+  <iframe id="video-player" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+  <ul id="video-list"></ul>
+  <div id="controls">
+    <button id="prev-video">Previous</button>
+    <button id="next-video">Next</button>
+  </div>
+  <button onclick="window.history.back()">Back to Courses</button>
+  <script src="script.js"></script>
+</body>
+</html>
