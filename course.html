@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -21,5 +21,107 @@
   </div>
   <button onclick="window.history.back()">Back to Courses</button>
   <script src="script.js"></script>
+</body>
+</html> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <title>Course Videos</title>
+  <style>
+    #video-list {
+      list-style-type: none;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    #video-list li {
+      cursor: pointer;
+      margin: 5px 0;
+    }
+    #controls {
+      margin-top: 10px;
+    }
+    #video-title {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h2 id="course-title"></h2>
+  <iframe id="video-player" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+  <div id="video-title"></div>
+  <ul id="video-list"></ul>
+  <div id="controls">
+    <button id="prev-video">Previous</button>
+    <button id="next-video">Next</button>
+  </div>
+  <button onclick="window.history.back()">Back to Courses</button>
+  <script>
+    const spreadsheetId = '1VoqMndYpOQv6a_ZrUSWciLNEv1WWB0Fmkp4laHBt-Cw';
+    const rangeVideos = 'Videos!A2:C';
+    const apiKey = 'AIzaSyBlN7d0VWpUrUiLjw4co4INU2pCEYLgzh0';
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const courseCode = urlParams.get('courseCode');
+      const videoListElement = document.getElementById('video-list');
+      const videoPlayerElement = document.getElementById('video-player');
+      const courseTitleElement = document.getElementById('course-title');
+      const videoTitleElement = document.getElementById('video-title');
+
+      if (!courseCode) {
+        courseTitleElement.textContent = 'Course not found';
+        return;
+      }
+
+      fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/${rangeVideos}?key=${apiKey}`)
+        .then(response => response.json())
+        .then(data => {
+          const videos = data.values.filter(row => row[0] === courseCode);
+          if (!videos.length) {
+            courseTitleElement.textContent = 'No videos found for this course';
+            return;
+          }
+
+          let currentIndex = 0;
+
+          function loadVideo(index) {
+            if (index >= 0 && index < videos.length) {
+              currentIndex = index;
+              const fileId = videos[currentIndex][2];
+              videoPlayerElement.src = `https://drive.google.com/file/d/${fileId}/preview`;
+              videoTitleElement.textContent = `Video ${videos[currentIndex][1]}`;
+            }
+          }
+
+          function changeVideo(direction) {
+            const newIndex = currentIndex + direction;
+            if (newIndex >= 0 && newIndex < videos.length) {
+              loadVideo(newIndex);
+            }
+          }
+
+          document.getElementById('prev-video').addEventListener('click', () => changeVideo(-1));
+          document.getElementById('next-video').addEventListener('click', () => changeVideo(1));
+
+          videos.forEach((video, index) => {
+            const li = document.createElement('li');
+            li.textContent = `Video ${video[1]}`;
+            li.addEventListener('click', () => loadVideo(index));
+            videoListElement.appendChild(li);
+          });
+
+          loadVideo(0);
+        })
+        .catch(error => {
+          console.error('Error fetching videos:', error);
+          courseTitleElement.textContent = 'Error loading videos';
+        });
+    });
+  </script>
 </body>
 </html>
