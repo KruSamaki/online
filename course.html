@@ -48,6 +48,60 @@
       margin-top: 10px;
       font-weight: bold;
     }
+    /* #video-player {
+      width: 100%;
+      max-width: 720px;
+      height: auto;
+      border-radius: 8px;
+      overflow: hidden;
+    } */
+    #video-title {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #555;
+    }
+    #video-list {
+      list-style-type: none;
+      padding: 0;
+      max-height: 200px;
+      overflow-y: auto;
+      width: 100%;
+      max-width: 720px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #fff;
+      margin-top: 10px;
+    }
+    #video-list li {
+      cursor: pointer;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      transition: background-color 0.2s;
+    }
+    #video-list li:hover {
+      background-color: #f0f0f0;
+    }
+    #controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+    }
+    button,#back {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: #fff;
+      background-color: #007bff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+    button:hover,#back:hover {
+      background-color: #0056b3;
+    }
+    button:focus,#back:focus {
+      outline: none;
+    }
   </style>
 </head>
 <body>
@@ -59,7 +113,8 @@
     <button id="prev-video">Previous</button>
     <button id="next-video">Next</button>
   </div>
-  <button onclick="window.history.back()">Back to Courses</button>
+  <!-- <button onclick="window.history.back()">Back to Courses</button> -->
+  <a href="index.html" id="back">Back to Courses</a>
   <script>
     const spreadsheetId = '1VoqMndYpOQv6a_ZrUSWciLNEv1WWB0Fmkp4laHBt-Cw';
     const rangeVideos = 'Videos!A2:C';
