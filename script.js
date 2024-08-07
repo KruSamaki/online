@@ -151,10 +151,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let currentIndex = 0;
 
+      // function loadVideo(index) {
+      //   if (index >= 0 && index < videos.length) {
+      //     currentIndex = index;
+      //     videoPlayerElement.src = videos[currentIndex][2];
+      //   }
+      // }
       function loadVideo(index) {
         if (index >= 0 && index < videos.length) {
           currentIndex = index;
-          videoPlayerElement.src = videos[currentIndex][2];
+          const fileId = videos[currentIndex][2]; // Assuming this column contains the Google Drive file ID
+          videoPlayerElement.src = `https://drive.google.com/file/d/${fileId}/preview`;
         }
       }
 
